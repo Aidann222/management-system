@@ -18,34 +18,42 @@ import java.util.Optional;
 public class UserManagementServiceImpl implements UserManagementService {
     private final UserManagementRepository userManagementRepository;
 
+
     @Override
     public UserCreateResponse createUserManagement(UserCreateRequest userCreateRequest) {
-        User user = new User();
-        user.setUsername(userCreateRequest.getUsername());
-        user.setPassword(userCreateRequest.getPassword());
-        user.setEmail(userCreateRequest.getEmail());
-        user.setPhoneNumber(userCreateRequest.getPhoneNumber());
-        user.setCreated(userCreateRequest.getCreated());
-        user.setCreatedBy(userCreateRequest.getCreatedBy());
-        user.setModifiedBy(userCreateRequest.getModifiedBy());
-        user.setModified(userCreateRequest.getModified());
+       Optional<User> optionalUser = userManagementRepository.findByEmail(userCreateRequest.getEmail());
+        if(optionalUser.isEmpty()){
+            User user = new User();
+            user.setUsername(userCreateRequest.getUsername());
+            user.setPassword(userCreateRequest.getPassword());
+            user.setEmail(userCreateRequest.getEmail());
+            user.setPhoneNumber(userCreateRequest.getPhoneNumber());
+            user.setCreated(userCreateRequest.getCreated());
+            user.setCreatedBy(userCreateRequest.getCreatedBy());
+            user.setModifiedBy(userCreateRequest.getModifiedBy());
+            user.setModified(userCreateRequest.getModified());
 
-        User saveUser = userManagementRepository.save(user); // sual
+            User saveUser = userManagementRepository.save(user); // sual
 
-        UserCreateResponse userCreateResponse = new UserCreateResponse();
+            UserCreateResponse userCreateResponse = new UserCreateResponse();
 
-        userCreateResponse.setId(saveUser.getId());
-        userCreateResponse.setUsername(saveUser.getUsername());
-        userCreateResponse.setPassword(saveUser.getPassword());
-        userCreateResponse.setEmail(saveUser.getEmail());
-        userCreateResponse.setPhoneNumber(saveUser.getPhoneNumber());
-        userCreateResponse.setCreated(saveUser.getCreated());
-        userCreateResponse.setCreatedBy(saveUser.getCreatedBy());
-        userCreateResponse.setModified(saveUser.getModified());
-        userCreateResponse.setModifiedBy(saveUser.getModifiedBy());
+            userCreateResponse.setId(saveUser.getId());
+            userCreateResponse.setUsername(saveUser.getUsername());
+            userCreateResponse.setPassword(saveUser.getPassword());
+            userCreateResponse.setEmail(saveUser.getEmail());
+            userCreateResponse.setPhoneNumber(saveUser.getPhoneNumber());
+            userCreateResponse.setCreated(saveUser.getCreated());
+            userCreateResponse.setCreatedBy(saveUser.getCreatedBy());
+            userCreateResponse.setModified(saveUser.getModified());
+            userCreateResponse.setModifiedBy(saveUser.getModifiedBy());
 
 
-        return userCreateResponse;
+            return userCreateResponse;
+        }else{
+            throw new RuntimeException("User already exists");
+
+        }
+
     }
 
     @Override
