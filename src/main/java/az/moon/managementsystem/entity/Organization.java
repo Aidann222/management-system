@@ -8,18 +8,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-@Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "users" )
-public class User extends BaseDomain<Long> {
+@Entity
+@Table(name = "organizations")
+public class Organization extends BaseDomain<Long> {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    private String username;
-    private String password;
-    private String email;
-    private String phoneNumber;
+    private String name;
+    private Boolean status;
+    private Integer contactId; // contact entity`nin PK id`si (primary key)
 
 }

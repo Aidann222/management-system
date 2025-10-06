@@ -11,9 +11,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserCreateRequest {
+
     private String username;
     private String password;
-    private String email;
+    private String userEmail;
     private String phoneNumber;
     private LocalDateTime created;
     private String createdBy;

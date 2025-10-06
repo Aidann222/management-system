@@ -11,15 +11,14 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "users" )
-public class User extends BaseDomain<Long> {
+@Table(name = "contacts")
+public class Contact extends BaseDomain<Integer> {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long id;
-    private String username;
-    private String password;
+    private Integer id;
     private String email;
+    private String callCenter;
     private String phoneNumber;
 
 }
