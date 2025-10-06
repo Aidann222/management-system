@@ -4,15 +4,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Data
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "users" )
-public class User extends BaseDomain<Long> {
+public class User extends BaseDomain {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
