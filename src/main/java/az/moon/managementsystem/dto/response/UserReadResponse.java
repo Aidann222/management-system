@@ -1,21 +1,20 @@
 package az.moon.managementsystem.dto.response;
 
-import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserCreateResponse {
+public class UserReadResponse {
 
-    private Long id;
     private String username;
-    private String password;
     private String email;
-    private String phoneNumber;
     private LocalDateTime created;
-    private String createdBy;
+    private LocalDateTime modified;
 
 }

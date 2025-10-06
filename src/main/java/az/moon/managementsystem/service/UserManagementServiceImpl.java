@@ -1,59 +1,42 @@
 package az.moon.managementsystem.service;
 
-
-import az.moon.managementsystem.dto.UserReadResponse;
+import az.moon.managementsystem.contains.ManagementContains;
 import az.moon.managementsystem.dto.request.UserCreateRequest;
+import az.moon.managementsystem.dto.request.UserUpdateRequest;
 import az.moon.managementsystem.dto.response.UserCreateResponse;
+import az.moon.managementsystem.dto.response.UserReadResponse;
+import az.moon.managementsystem.dto.response.UserUpdateResponse;
 import az.moon.managementsystem.entity.User;
+import az.moon.managementsystem.exception.notfound.UserNotFoundException;
+import az.moon.managementsystem.mapper.UserMapper;
 import az.moon.managementsystem.repository.UserManagementRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UserManagementServiceImpl implements UserManagementService {
-    private final UserManagementRepository userManagementRepository;
 
+    private final UserManagementRepository userManagementRepository;
+    private final UserMapper userMapper;
 
     @Override
     public UserCreateResponse createUserManagement(UserCreateRequest userCreateRequest) {
-       Optional<User> optionalUser = userManagementRepository.findByEmail(userCreateRequest.getEmail());
+        Optional<User> optionalUser = userManagementRepository.findByEmail(userCreateRequest.getUserEmail());
         if(optionalUser.isEmpty()){
-            User user = new User();
-            user.setUsername(userCreateRequest.getUsername());
-            user.setPassword(userCreateRequest.getPassword());
-            user.setEmail(userCreateRequest.getEmail());
-            user.setPhoneNumber(userCreateRequest.getPhoneNumber());
-            user.setCreated(userCreateRequest.getCreated());
-            user.setCreatedBy(userCreateRequest.getCreatedBy());
-            user.setModifiedBy(userCreateRequest.getModifiedBy());
-            user.setModified(userCreateRequest.getModified());
 
-            User saveUser = userManagementRepository.save(user); // sual
+            User user = userMapper.createRequestToEntity(userCreateRequest);
 
-            UserCreateResponse userCreateResponse = new UserCreateResponse();
+            User saveUser = userManagementRepository.save(user);
 
-            userCreateResponse.setId(saveUser.getId());
-            userCreateResponse.setUsername(saveUser.getUsername());
-            userCreateResponse.setPassword(saveUser.getPassword());
-            userCreateResponse.setEmail(saveUser.getEmail());
-            userCreateResponse.setPhoneNumber(saveUser.getPhoneNumber());
-            userCreateResponse.setCreated(saveUser.getCreated());
-            userCreateResponse.setCreatedBy(saveUser.getCreatedBy());
-            userCreateResponse.setModified(saveUser.getModified());
-            userCreateResponse.setModifiedBy(saveUser.getModifiedBy());
-
-
-            return userCreateResponse;
-        }else{
-            throw new RuntimeException("User already exists");
+            return userMapper.entityToCreateResponse(saveUser);
 
         }
-
+            // todo :  burada normal already adinda exception atmaq lazimdir..
+            throw new RuntimeException("User already exists");
     }
 
     @Override
@@ -63,11 +46,12 @@ public class UserManagementServiceImpl implements UserManagementService {
         List<UserReadResponse> result = new ArrayList<>();
 
         for(User user : users) {
+            // todo : burada mapper istifade et.. user entity`den (source) userReadResponse (target) tipine..
             UserReadResponse userReadResponse = new UserReadResponse();
             userReadResponse.setUsername(user.getUsername());
             userReadResponse.setEmail(user.getEmail());
-            userReadResponse.setCreated(user.getCreated());
-            userReadResponse.setModified(user.getModified());
+//            userReadResponse.setCreated(user.getCreated());
+//            userReadResponse.setModified(user.getModified());
 
             result.add(userReadResponse);
         }
@@ -82,9 +66,41 @@ public class UserManagementServiceImpl implements UserManagementService {
         UserReadResponse response = new UserReadResponse();
         response.setUsername(optionalUser.get().getUsername());
         response.setEmail(optionalUser.get().getEmail());
-        response.setCreated(optionalUser.get().getCreated());
-        response.setModified(optionalUser.get().getModified());
+//        response.setCreated(optionalUser.get().getCreated());
+//        response.setModified(optionalUser.get().getModified());
 
         return response;
     }
+
+    @Override
+    public UserUpdateResponse updateUser(Long userId, UserUpdateRequest updateRequest) {
+        // todo : mapping tetbiq et..
+        User user = userManagementRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(ManagementContains.USER_NOT_FOUND));
+
+        user.setUsername(updateRequest.getUsername());
+        user.setPassword(updateRequest.getPassword());
+        user.setEmail(updateRequest.getEmail());
+        user.setPhoneNumber(updateRequest.getPhoneNumber());
+
+        User savedUser = userManagementRepository.save(user);
+
+        return UserUpdateResponse.builder()
+                .id(savedUser.getId())
+                .email(savedUser.getEmail())
+                .username(savedUser.getUsername())
+                .password(savedUser.getPassword())
+                .phoneNumber(savedUser.getPhoneNumber())
+//                .modified(savedUser.getModified())
+//                .modifiedBy(savedUser.getModifiedBy())
+                .build();
+    }
+
+    @Override
+    public void deleteUser(Long userId) { // 3
+        User foundedUser = userManagementRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(ManagementContains.USER_NOT_FOUND));
+        userManagementRepository.deleteById(foundedUser.getId()); // 3
+    }
+
 }
