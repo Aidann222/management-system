@@ -1,8 +1,12 @@
 package az.moon.managementsystem.entity;
 
+import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
+import lombok.Data;
 
-public class BaseDomain<T> {
+@Data
+@MappedSuperclass
+public abstract class BaseDomain {
 
     private LocalDateTime created;
     private String createdBy;
