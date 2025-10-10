@@ -1,13 +1,12 @@
 package az.moon.managementsystem.controller;
 
-
-
 import az.moon.managementsystem.dto.request.UserUpdateRequest;
 import az.moon.managementsystem.dto.response.UserReadResponse;
 import az.moon.managementsystem.dto.request.UserCreateRequest;
 import az.moon.managementsystem.dto.response.UserCreateResponse;
 import az.moon.managementsystem.dto.response.UserUpdateResponse;
 import az.moon.managementsystem.service.UserManagementService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,7 @@ public class UserManagementController {
 
     @PostMapping("/save")
    // @ResponseStatus()
-    public UserCreateResponse createUserManagement(@RequestBody UserCreateRequest userCreateRequest) {
+    public UserCreateResponse createUserManagement(@Valid @RequestBody UserCreateRequest userCreateRequest) {
         return userManagementService.createUserManagement(userCreateRequest);
     }
 
