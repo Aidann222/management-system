@@ -56,13 +56,19 @@ public class UserManagementServiceImpl implements UserManagementService {
 
     @Override
     public UserUpdateResponse updateUser(Long userId, UserUpdateRequest updateRequest) {
+
+        // todo : burada tapmaq istediyim user idi ve tapdim...
         User user = userManagementRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(ManagementContains.USER_NOT_FOUND));
-        
+
+        // todo : deyismeye calisdigim idi deyisdim...
         User updatedUser = userMapper.updateUserFromRequest(updateRequest);
+
+        // todo ; tam hazir ve deyisdiyim user
         updatedUser.setId(user.getId());
 
-        User savedUser = userManagementRepository.save(user);
+        // todo : save icinde olan user nedir ?
+        User savedUser = userManagementRepository.save(updatedUser);
 
         return userMapper.entityToUpdateResponse(savedUser);
     }
