@@ -1,6 +1,7 @@
 package az.moon.managementsystem.exception;
 
 import az.moon.managementsystem.exception.errors.ErrorResponse;
+import az.moon.managementsystem.exception.exits.AlreadyExistsException;
 import az.moon.managementsystem.exception.notfound.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +16,14 @@ public class GlobalExceptionHandler {
                 .code(HttpStatus.NOT_FOUND.value())
                 .message(exception.getMessage())
                 .build();
+    }
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ErrorResponse handlerAlreadyExistsException(AlreadyExistsException exception) {
+        return ErrorResponse.builder()
+                .code(HttpStatus.CONFLICT.value())
+                .message(exception.getMessage())
+                .build();
+
     }
 
 }

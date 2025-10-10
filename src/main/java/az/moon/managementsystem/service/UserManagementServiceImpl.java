@@ -7,6 +7,7 @@ import az.moon.managementsystem.dto.response.UserCreateResponse;
 import az.moon.managementsystem.dto.response.UserReadResponse;
 import az.moon.managementsystem.dto.response.UserUpdateResponse;
 import az.moon.managementsystem.entity.User;
+import az.moon.managementsystem.exception.exits.AlreadyExistsException;
 import az.moon.managementsystem.exception.notfound.UserNotFoundException;
 import az.moon.managementsystem.mapper.UserMapper;
 import az.moon.managementsystem.repository.UserManagementRepository;
@@ -35,65 +36,35 @@ public class UserManagementServiceImpl implements UserManagementService {
             return userMapper.entityToCreateResponse(saveUser);
 
         }
-            // todo :  burada normal already adinda exception atmaq lazimdir..
-            throw new RuntimeException("User already exists");
+            throw new AlreadyExistsException(ManagementContains.ALREADY_EXISTS);
     }
 
     @Override
     public List<UserReadResponse> getAllUsers() {
         List<User> users = userManagementRepository.findAll();
 
-        List<UserReadResponse> result = new ArrayList<>();
-
-        for(User user : users) {
-            // todo : burada mapper istifade et.. user entity`den (source) userReadResponse (target) tipine..
-            UserReadResponse userReadResponse = new UserReadResponse();
-            userReadResponse.setUsername(user.getUsername());
-            userReadResponse.setEmail(user.getEmail());
-//            userReadResponse.setCreated(user.getCreated());
-//            userReadResponse.setModified(user.getModified());
-
-            result.add(userReadResponse);
-        }
-        return result;
+        return userMapper.toReadResponse(users);
     }
 
     @Override
     public UserReadResponse getUserById(Long userId) {
-        Optional<User> optionalUser = userManagementRepository.findById(userId);
-        if(optionalUser.isEmpty())
-            return new UserReadResponse();
-        UserReadResponse response = new UserReadResponse();
-        response.setUsername(optionalUser.get().getUsername());
-        response.setEmail(optionalUser.get().getEmail());
-//        response.setCreated(optionalUser.get().getCreated());
-//        response.setModified(optionalUser.get().getModified());
+        User user = userManagementRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(ManagementContains.USER_NOT_FOUND));
 
-        return response;
+        return userMapper.toReadResponse(user);
     }
 
     @Override
     public UserUpdateResponse updateUser(Long userId, UserUpdateRequest updateRequest) {
-        // todo : mapping tetbiq et..
         User user = userManagementRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(ManagementContains.USER_NOT_FOUND));
-
-        user.setUsername(updateRequest.getUsername());
-        user.setPassword(updateRequest.getPassword());
-        user.setEmail(updateRequest.getEmail());
-        user.setPhoneNumber(updateRequest.getPhoneNumber());
+        
+        User updatedUser = userMapper.updateUserFromRequest(updateRequest);
+        updatedUser.setId(user.getId());
 
         User savedUser = userManagementRepository.save(user);
 
-        return UserUpdateResponse.builder()
-                .id(savedUser.getId())
-                .email(savedUser.getEmail())
-                .username(savedUser.getUsername())
-                .password(savedUser.getPassword())
-                .phoneNumber(savedUser.getPhoneNumber())
-//                .modified(savedUser.getModified())
-//                .modifiedBy(savedUser.getModifiedBy())
-                .build();
+        return userMapper.entityToUpdateResponse(savedUser);
     }
 
     @Override
