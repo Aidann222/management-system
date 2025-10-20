@@ -1,11 +1,11 @@
 package az.moon.managementsystem.controller;
 
-import az.moon.managementsystem.dto.request.UserUpdateRequest;
-import az.moon.managementsystem.dto.response.UserReadResponse;
-import az.moon.managementsystem.dto.request.UserCreateRequest;
-import az.moon.managementsystem.dto.response.UserCreateResponse;
-import az.moon.managementsystem.dto.response.UserUpdateResponse;
-import az.moon.managementsystem.service.UserManagementService;
+import az.moon.managementsystem.dto.request.user.UserUpdateRequest;
+import az.moon.managementsystem.dto.response.user.UserReadResponse;
+import az.moon.managementsystem.dto.request.user.UserCreateRequest;
+import az.moon.managementsystem.dto.response.user.UserCreateResponse;
+import az.moon.managementsystem.dto.response.user.UserUpdateResponse;
+import az.moon.managementsystem.service.user.UserManagementService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

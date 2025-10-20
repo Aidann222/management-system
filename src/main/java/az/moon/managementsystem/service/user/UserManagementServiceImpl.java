@@ -1,19 +1,20 @@
-package az.moon.managementsystem.service;
+package az.moon.managementsystem.service.user;
 
 import az.moon.managementsystem.contains.ManagementContains;
-import az.moon.managementsystem.dto.request.UserCreateRequest;
-import az.moon.managementsystem.dto.request.UserUpdateRequest;
-import az.moon.managementsystem.dto.response.UserCreateResponse;
-import az.moon.managementsystem.dto.response.UserReadResponse;
-import az.moon.managementsystem.dto.response.UserUpdateResponse;
+import az.moon.managementsystem.dto.request.user.UserCreateRequest;
+import az.moon.managementsystem.dto.request.user.UserUpdateRequest;
+import az.moon.managementsystem.dto.response.user.UserCreateResponse;
+import az.moon.managementsystem.dto.response.user.UserReadResponse;
+import az.moon.managementsystem.dto.response.user.UserUpdateResponse;
 import az.moon.managementsystem.entity.User;
 import az.moon.managementsystem.exception.exits.AlreadyExistsException;
 import az.moon.managementsystem.exception.notfound.UserNotFoundException;
 import az.moon.managementsystem.mapper.UserMapper;
 import az.moon.managementsystem.repository.UserManagementRepository;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
