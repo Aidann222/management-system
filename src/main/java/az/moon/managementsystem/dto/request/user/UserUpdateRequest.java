@@ -1,7 +1,5 @@
-package az.moon.managementsystem.dto.request;
+package az.moon.managementsystem.dto.request.user;
 
-
-import az.moon.managementsystem.contant.validation.Username;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,12 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserCreateRequest {
+public class UserUpdateRequest {
 
-    @Username
     private String username;
     private String password;
-    private String userEmail;
+    private String email;
     private String phoneNumber;
 
 }

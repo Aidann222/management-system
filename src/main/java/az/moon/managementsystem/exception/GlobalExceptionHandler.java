@@ -2,8 +2,10 @@ package az.moon.managementsystem.exception;
 
 import az.moon.managementsystem.exception.errors.ErrorResponse;
 import az.moon.managementsystem.exception.exits.AlreadyExistsException;
+import az.moon.managementsystem.exception.notfound.OrganizationNotFoundException;
 import az.moon.managementsystem.exception.notfound.UserNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -41,6 +43,15 @@ public class GlobalExceptionHandler {
         return ErrorResponse.builder()
                 .code(HttpStatus.BAD_REQUEST.value())
                 .message(fieldName + message)
+                .build();
+    }
+
+    @ExceptionHandler(OrganizationNotFoundException .class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handlerOrganizationNotFoundException(OrganizationNotFoundException exception) {
+        return ErrorResponse.builder()
+                .code(HttpStatus.NOT_FOUND.value())
+                .message(exception.getMessage())
                 .build();
     }
 

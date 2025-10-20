@@ -1,10 +1,10 @@
 package az.moon.managementsystem.mapper;
 
-import az.moon.managementsystem.dto.request.UserCreateRequest;
-import az.moon.managementsystem.dto.request.UserUpdateRequest;
-import az.moon.managementsystem.dto.response.UserCreateResponse;
-import az.moon.managementsystem.dto.response.UserReadResponse;
-import az.moon.managementsystem.dto.response.UserUpdateResponse;
+import az.moon.managementsystem.dto.request.user.UserCreateRequest;
+import az.moon.managementsystem.dto.request.user.UserUpdateRequest;
+import az.moon.managementsystem.dto.response.user.UserCreateResponse;
+import az.moon.managementsystem.dto.response.user.UserReadResponse;
+import az.moon.managementsystem.dto.response.user.UserUpdateResponse;
 import az.moon.managementsystem.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -16,7 +16,7 @@ import java.util.List;
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
-    // todo mapping create case... create request -> entity / entity -> create response
+    // todo mapping response case... response request -> entity / entity -> response response
 
     // todo requestin icindeki userEmail -> email
     @Mapping(source = "userEmail", target = "email")
