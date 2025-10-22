@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ContactCreateResponse {
     private Long id;
-    private String name;
+    private String callCenter;
     private String phone;
     private String email;
-    private String address;
 }

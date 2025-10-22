@@ -11,6 +11,6 @@ public class OrganizationCreateRequest {
 
     private String name;
     private Boolean status;
-    private Integer contactId;
+    private ContactCreateRequest contactDetail;
 
 }
