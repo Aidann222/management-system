@@ -11,6 +11,5 @@ public class ContactCreateRequest {
     private String userEmail;
     private String callCenter;
     private String phoneNumber;
-    private String address;
 
 }

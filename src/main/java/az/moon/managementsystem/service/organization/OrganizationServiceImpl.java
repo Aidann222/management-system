@@ -1,6 +1,7 @@
 package az.moon.managementsystem.service.organization;
 
 import az.moon.managementsystem.contains.ManagementContains;
+import az.moon.managementsystem.dto.request.organization.ContactCreateRequest;
 import az.moon.managementsystem.dto.request.organization.OrganizationCreateRequest;
 import az.moon.managementsystem.dto.request.organization.OrganizationUpdateRequest;
 import az.moon.managementsystem.dto.response.organization.OrganizationCreateResponse;
@@ -9,8 +10,10 @@ import az.moon.managementsystem.dto.response.organization.OrganizationUpdateResp
 import az.moon.managementsystem.entity.Organization;
 import az.moon.managementsystem.exception.exits.AlreadyExistsException;
 import az.moon.managementsystem.exception.notfound.OrganizationNotFoundException;
+import az.moon.managementsystem.mapper.ContactMapper;
 import az.moon.managementsystem.mapper.OrganizationMapper;
 import az.moon.managementsystem.repository.OrganizationRepository;
+import az.moon.managementsystem.service.contact.ContactService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,7 @@ import java.util.Optional;
 public class OrganizationServiceImpl implements OrganizationService {
     private final OrganizationRepository organizationRepository;
     private final OrganizationMapper organizationMapper;
+    private final ContactService contactService;
 
 
     @Override
@@ -31,6 +35,8 @@ public class OrganizationServiceImpl implements OrganizationService {
         if (!checkName) {
             Organization organization = organizationMapper.createRequestToEntity(request);
             Organization savedOrganization = organizationRepository.save(organization);
+            ContactCreateRequest  contactCreateRequest = request.getContactDetail();
+            contactService.createContact(contactCreateRequest);
             return organizationMapper.entityToCreateResponse(savedOrganization);
         } else {
             throw new AlreadyExistsException(ManagementContains.ORGANIZATION_ALREADY_EXISTS);
