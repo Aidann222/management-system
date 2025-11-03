@@ -14,5 +14,5 @@ public class OrganizationUpdateRequest {
     private String name;
     private String description;
     private String website;
-    public String phoneNumber;
+    private String phoneNumber;
 }

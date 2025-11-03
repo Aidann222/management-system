@@ -2,6 +2,7 @@ package az.moon.managementsystem.service.organization;
 
 
 import az.moon.managementsystem.dto.request.organization.OrganizationCreateRequest;
+import az.moon.managementsystem.dto.request.organization.OrganizationStatusRequest;
 import az.moon.managementsystem.dto.request.organization.OrganizationUpdateRequest;
 import az.moon.managementsystem.dto.response.organization.OrganizationCreateResponse;
 import az.moon.managementsystem.dto.response.organization.OrganizationReadResponse;
@@ -24,6 +25,8 @@ public interface OrganizationService {
     Boolean getByName(String name);
 
     List<OrganizationReadResponse> getAllStatus(Boolean status);
+
+    OrganizationUpdateResponse updateOrganizationStatus(Long id, OrganizationStatusRequest request);
 
 
 }

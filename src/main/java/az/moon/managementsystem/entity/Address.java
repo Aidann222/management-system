@@ -14,7 +14,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Entity
 @Table(name = "adresses")
-public class Adress extends BaseDomain {
+public class Address extends BaseDomain {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
