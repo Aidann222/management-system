@@ -15,15 +15,14 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "users" )
-public class User extends BaseDomain {
+@Table(name = "organizations")
+public class Organization extends BaseDomain {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    private String username;
-    private String password;
-    private String email;
-    private String phoneNumber;
+    private String name;
+    private Boolean status;
+    private Integer contactId; // contact entity`nin PK id`si (primary key)
 
 }

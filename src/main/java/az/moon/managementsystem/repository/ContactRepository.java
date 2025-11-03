@@ -1,13 +1,14 @@
 package az.moon.managementsystem.repository;
 
-import az.moon.managementsystem.entity.User;
+import az.moon.managementsystem.entity.Contact;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UserManagementRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
+public interface ContactRepository extends JpaRepository<Contact, Integer> {
+
+    Optional<Contact> findByEmail(String email);
 
 }

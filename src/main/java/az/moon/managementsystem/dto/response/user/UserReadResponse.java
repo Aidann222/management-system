@@ -1,4 +1,4 @@
-package az.moon.managementsystem.dto.request;
+package az.moon.managementsystem.dto.response.user;
 
 
 import lombok.AllArgsConstructor;
@@ -10,14 +10,11 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserCreateRequest {
+public class UserReadResponse {
+
     private String username;
-    private String password;
     private String email;
-    private String phoneNumber;
     private LocalDateTime created;
-    private String createdBy;
     private LocalDateTime modified;
-    private String modifiedBy;
 
 }
