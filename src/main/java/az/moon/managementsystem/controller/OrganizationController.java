@@ -9,6 +9,7 @@ import az.moon.managementsystem.dto.response.organization.OrganizationUpdateResp
 import az.moon.managementsystem.entity.Organization;
 import az.moon.managementsystem.service.organization.OrganizationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +37,8 @@ public class OrganizationController {
         return organizationService.updateOrganization(organizationId, request);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{organizationId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteOrganization(@PathVariable(name = "organizationId") Long organizationId) {
         organizationService.deleteOrganization(organizationId);
     }

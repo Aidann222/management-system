@@ -1,13 +1,20 @@
 package az.moon.managementsystem.service.contact;
 
-import az.moon.managementsystem.dto.request.organization.ContactCreateRequest;
+import az.moon.managementsystem.contains.ManagementContains;
+import az.moon.managementsystem.dto.request.contact.ContactCreateRequest;
+import az.moon.managementsystem.dto.request.contact.ContactUpdateRequest;
 import az.moon.managementsystem.dto.response.contact.ContactCreateResponse;
+import az.moon.managementsystem.dto.response.contact.ContactReadResponse;
+import az.moon.managementsystem.dto.response.contact.ContactUpdateResponse;
 import az.moon.managementsystem.entity.Contact;
+import az.moon.managementsystem.exception.notfound.OrganizationNotFoundException;
 import az.moon.managementsystem.mapper.ContactMapper;
 import az.moon.managementsystem.repository.ContactRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,4 +34,33 @@ public class ContactServiceImpl implements ContactService {
         return contactMapper.entityToCreateResponse(savedContact);
 
     }
+
+    @Override
+    public List<ContactReadResponse> getAllContacts() {
+        List<Contact> contacts = contactRepository.findAll();
+        return contactMapper.toReadResponseList(contacts);
+    }
+
+    @Override
+    public ContactReadResponse getContactById(Integer id) {
+        Contact contact = contactRepository.findById(id)
+                .orElseThrow(() -> new OrganizationNotFoundException(ManagementContains.CONTACT_ALREADY_EXISTS));
+        return contactMapper.contactToReadResponse(contact);
+    }
+
+    @Override
+    public ContactUpdateResponse updateContact(ContactUpdateRequest request, Integer id) {
+        Contact contact = contactRepository.findById(id)
+                .orElseThrow(() -> new OrganizationNotFoundException(ManagementContains.CONTACT_NOT_FOUND));
+        return contactMapper.entityToUpdateResponse(contact);
+    }
+
+    @Override
+    public void deleteContact(Integer id) {
+        Contact foundedContact  = contactRepository.findById(id)
+                .orElseThrow(() -> new OrganizationNotFoundException(ManagementContains.CONTACT_ALREADY_EXISTS));
+        contactRepository.delete(foundedContact);
+
+    }
+
 }

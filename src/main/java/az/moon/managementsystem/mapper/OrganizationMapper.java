@@ -2,6 +2,7 @@ package az.moon.managementsystem.mapper;
 
 
 import az.moon.managementsystem.dto.request.organization.OrganizationCreateRequest;
+import az.moon.managementsystem.dto.request.organization.OrganizationStatusRequest;
 import az.moon.managementsystem.dto.request.organization.OrganizationUpdateRequest;
 import az.moon.managementsystem.dto.response.organization.OrganizationCreateResponse;
 import az.moon.managementsystem.dto.response.organization.OrganizationReadResponse;
@@ -26,5 +27,8 @@ public interface OrganizationMapper {
     Organization updateRequestToEntity(OrganizationUpdateRequest updateRequest);
 
     OrganizationUpdateResponse entityToUpdateResponse(Organization organization);
+
+    Organization updateStatusFromRequest(OrganizationStatusRequest request);
+
 
 }
